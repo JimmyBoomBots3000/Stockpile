@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id = "@+id/constraintLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ItemDetailActivity">
+
+
+
+    <TextView
+        android:id="@+id/detLocationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Item Name"
+        android:textSize="30sp"
+        android:textIsSelectable="true"
+        android:textColor="@color/secondaryTextColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="?android:attr/listDivider"
+        android:textColor="@color/secondaryTextColor"
+        app:layout_constraintTop_toBottomOf="@+id/detLocationName"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/detItemNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:text="Item Number"
+        android:textIsSelectable="true"
+        android:textColor="@color/secondaryTextColor"
+        app:layout_constraintStart_toStartOf="@+id/detLocationName"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/detLocationDesc"
+        android:layout_width="334dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="12dp"
+        android:text="Item Description"
+        android:textIsSelectable="true"
+        android:textColor="@color/secondaryTextColor"
+        app:layout_constraintStart_toStartOf="@+id/detItemNumber"
+        app:layout_constraintTop_toBottomOf="@+id/detItemNumber" />
+
+    <!-- Uses recycler_view_count to show item count by location -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="374dp"
+        android:id="@+id/countsRecyclerView"
+        android:layout_height="368dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/detLocationDesc"
+        app:layout_constraintTop_toBottomOf="@+id/detLocationDesc" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addFAB"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toTopOf="@+id/removeFAB"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="addQtyClick"
+        app:srcCompat="@drawable/add"
+        tools:ignore="VectorDrawableCompat" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/removeFAB"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="subQtyClick"
+        app:srcCompat="@drawable/remove" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

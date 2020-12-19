@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This is the main activity after logging in-->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listFrame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jrichmond.stockpile.ItemListActivity">
+
+    <!-- Uses recycler_view_item to show locations -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/locationRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/secondaryLightColor"
+        android:scrollbars="vertical" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        app:srcCompat="@drawable/add"
+        android:layout_margin="16dp"
+        tools:ignore="VectorDrawableCompat"
+        android:onClick="addLocationClick"/>
+
+</FrameLayout>

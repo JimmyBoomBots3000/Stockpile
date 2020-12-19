@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Stockpile</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="edit">Edit Item</string>
+    <string name="delete_item">Delete Item</string>
+    <string name="editLocations">Edit Locations</string>
+    <string name="alerts">Alerts</string>
+    <string name="add_item">Add Item</string>
+    <string name="update_item">Update Item</string>
+    <string name="item_deleted">Item deleted.</string>
+    <string name="undo">Undo</string>
+    <string name="item_updated">Item Updated.</string>
+    <string name="item_added">Item added.</string>
+    <string name="delete_item_warning_message">This will delete the item, and count of the item from all locations!</string>
+    <string name="ok">OK</string>
+    <string name="cancel_button">CANCEL</string>
+    <string name="delete_button">DELETE</string>
+    <string name="locations_title">Edit Locations</string>
+    <string name="location_added">Location added.</string>
+    <string name="location_updated">Location updated.</string>
+    <string name="delete_location">Delete Location</string>
+    <string name="delete_location_warning_message">This will delete the location, and count of all items in this location!</string>
+    <string name="add_qty">Add Quantity</string>
+    <string name="permission_denied">Permission not granted.</string>
+    <string name="set_phone">Set Phone Number</string>
+    <string name="sms_alerts_message">Enter your phone number to receive SMS alerts when stock of an item is depleted.</string>
+</resources>
