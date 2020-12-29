@@ -1,6 +1,6 @@
 # Stockpile
 A simple Android application for inventory.
-* This project is a work-in-progress.*
+*This project is a work-in-progress.*
 
 ## Goals
 Stockpile is designed to be simple and intuitive, with as shallow a learning curve as possible.  It aims to be serviceable in a professional warehouse, but be 
