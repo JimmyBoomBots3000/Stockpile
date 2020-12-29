@@ -1,5 +1,8 @@
 package com.jrichmond.stockpile;
 
+import android.view.View;
+import android.widget.AdapterView;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -16,10 +19,13 @@ public interface CountDao {
     List<Count> getCountsOfItem(long item);
 
     @Query("DELETE FROM counts WHERE item = :id")
-    void deleteCountByItemId(long id);
+    void deleteCountsByItemId(long id);
 
     @Query("DELETE FROM counts WHERE location = :id")
-    void deleteCountByLocationId(long id);
+    void deleteCountsByLocationId(long id);
+
+    @Query("SELECT * FROM counts WHERE location = :locationId AND item = :itemId")
+    Count getItemCountSelectedLocation(long locationId, long itemId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertCount(Count count);

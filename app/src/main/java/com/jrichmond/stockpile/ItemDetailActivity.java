@@ -5,12 +5,19 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +25,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDetailActivity extends AppCompatActivity {
+// TODO update item location count list when closing qtyChange dialog
 
     public static final String EXTRA_ITEM = "com.jrichmond.stockpile.item";
     public static final String EXTRA_ITEM_ID = "com.jrichmond.stockpile.item_id";
@@ -32,9 +41,15 @@ public class ItemDetailActivity extends AppCompatActivity {
     private TextView mItemNumber;
     private TextView mItemDescription;
 
+    private EditText qtyEdit;
+
+
     private CountAdapter mCountAdapter;
 
     private RecyclerView mRecyclerView;
+
+    private int currentQty;
+    Count selectedCount;
 
 
     @Override
@@ -63,7 +78,6 @@ public class ItemDetailActivity extends AppCompatActivity {
         // Shows counts of items
         mCountAdapter = new CountAdapter(loadCounts());
         mRecyclerView.setAdapter(mCountAdapter);
-
     }
 
     @Override
@@ -124,7 +138,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     }
 
     private void deleteItem() {
-        mItemDb.countDao().deleteCountByItemId(mItem.getId());
+        mItemDb.countDao().deleteCountsByItemId(mItem.getId());
         mItemDb.itemDao().deleteItem(mItem);
         finish();
     }
@@ -153,22 +167,68 @@ public class ItemDetailActivity extends AppCompatActivity {
     }
 
     private Dialog qtyChangeDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.qty_change_dialog, null);
 
-        //TODO add logic to populate locations spinner
+        qtyEdit = dialogView.findViewById(R.id.editTextNumber);
 
+
+        // logic to populate locations spinner
+        List<Location> allLocations = mItemDb.locationDao().getLocations();
+        List<String> locationNames = new ArrayList<>();
+        List<Long> locationIds = new ArrayList<>();
+
+
+        for (Location location : allLocations) {
+            locationIds.add(location.getId());
+            locationNames.add(location.getLocationName());
+        };
+
+
+        int singleItemRes = R.layout.simple_spinner_item;
+        Spinner spinner = dialogView.findViewById(R.id.locationSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                singleItemRes, locationNames);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                // get current count at selected location
+                try {
+                    selectedCount = mItemDb.countDao().getItemCountSelectedLocation(
+                            locationIds.get(position),
+                            mItem.getId());
+                    currentQty = selectedCount.getQty();
+                }
+                catch(NullPointerException e) {
+                    selectedCount = new Count();
+                    selectedCount.setItem(mItem.getId());
+                    selectedCount.setLocation(locationIds.get(position));
+                    currentQty = 0;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        // build dialog box
         builder.setTitle(R.string.add_qty)
-                // Inflate and set the layout for the dialog
-                // Pass null as the parent view because its going in the dialog layout
                 .setView(dialogView)
-                // Add action buttons
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        //
+                        int addQty = Integer.parseInt(qtyEdit.getText().toString());
+                        // add entered qty to current qty
+                        int newQty = currentQty + addQty;
+                        selectedCount.setQty(newQty);
+                        mItemDb.countDao().insertCount(selectedCount);
+
                     }
                 })
                 .setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
@@ -176,19 +236,41 @@ public class ItemDetailActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
+
         return builder.create();
     }
 
     public void addQtyClick(View view) {
         Dialog addDialog = qtyChangeDialog();
         addDialog.show();
+        ((AlertDialog) addDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        // Now set the textchange listener for edittext
+        qtyEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Check if edittext is empty
+                if (TextUtils.isEmpty(s) || Integer.parseInt(s.toString()) == 0) {
+                    // Disable ok button
+                    ((AlertDialog) addDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                } else {
+                    // Something into edit text. Enable the button.
+                    ((AlertDialog) addDialog).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                }
+            }
+        });
+
 
     }
 
     public void subQtyClick(View view) {
-        Dialog addDialog = qtyChangeDialog();
-        addDialog.show();
-
     }
 
     private void showItem(Item item) {
@@ -251,7 +333,7 @@ public class ItemDetailActivity extends AppCompatActivity {
             mCountLocationName = mItemDb.locationDao().getLocation(count.getLocation()).getLocationName();
 
             mLocationView.setText(mCountLocationName);
-            mQuantityView.setText(Integer.toString(count.getCount()));
+            mQuantityView.setText(Integer.toString(count.getQty()));
 
         }
 

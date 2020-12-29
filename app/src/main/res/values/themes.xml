@@ -16,12 +16,19 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
     </style>
+
 
     <style name="locationListName">
         <item name="android:textSize">@dimen/list_text_size</item>
         <item name="android:padding">@dimen/list_padding</item>
     </style>
+
+    <style name="spinnerTheme">
+        <item name="android:textColor">@color/secondaryTextColor</item>
+    </style>
+
 
 
 </resources>

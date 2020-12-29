@@ -25,13 +25,13 @@ public class Count {
     private long mId;
 
     @ColumnInfo(name = "item")
-    private String mItem;
+    private long mItem;
 
     @ColumnInfo(name = "location")
     private long mLocation;
 
     @ColumnInfo(name = "count")
-    private int mCount;
+    private int mQty;
 
 
     public void setId(long id) {
@@ -43,12 +43,12 @@ public class Count {
     }
 
 
-    public String getItem() {
+    public long getItem() {
         return mItem;
     }
 
-    public void setItem(String text) {
-        mItem = text;
+    public void setItem(long item) {
+        mItem = item;
     }
 
 
@@ -56,17 +56,15 @@ public class Count {
         return mLocation;
     }
 
-    public void setLocation(long locId) {
-        mLocation = locId;
+    public void setLocation(long loc) {
+        mLocation = loc;
     }
 
 
-    public int getCount() {
-        return mCount;
-    }
+    public int getQty() { return mQty; }
 
-    public void setCount(int qty) {
-        mCount = qty;
+    public void setQty(int qty) {
+        mQty = qty;
     }
 }
 

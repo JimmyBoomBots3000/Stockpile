@@ -18,9 +18,7 @@ public interface LocationDao {
 
     @Query("SELECT * FROM locations ORDER BY locationName")
     List<Location> getLocations();
-
-
-
+    
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertLocation(Location location);
 
