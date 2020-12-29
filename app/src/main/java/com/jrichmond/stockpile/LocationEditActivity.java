@@ -125,6 +125,7 @@ public class LocationEditActivity extends AppCompatActivity {
     }
 
     private void deleteLocation() {
+        mItemDb.countDao().deleteCountByLocationId(mLocation.getId());
         mItemDb.locationDao().deleteLocation(mLocation);
         finish();
     }

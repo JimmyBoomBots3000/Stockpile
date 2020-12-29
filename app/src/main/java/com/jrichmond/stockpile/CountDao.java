@@ -16,7 +16,10 @@ public interface CountDao {
     List<Count> getCountsOfItem(long item);
 
     @Query("DELETE FROM counts WHERE item = :id")
-    void deleteItemById(long id);
+    void deleteCountByItemId(long id);
+
+    @Query("DELETE FROM counts WHERE location = :id")
+    void deleteCountByLocationId(long id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertCount(Count count);
