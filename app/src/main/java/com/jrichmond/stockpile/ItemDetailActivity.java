@@ -124,6 +124,7 @@ public class ItemDetailActivity extends AppCompatActivity {
     }
 
     private void deleteItem() {
+        mItemDb.countDao().deleteItemById(mItem.getId());
         mItemDb.itemDao().deleteItem(mItem);
         finish();
     }
